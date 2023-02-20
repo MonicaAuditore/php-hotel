@@ -65,8 +65,7 @@ $hotels = [
 	<?php endforeach; ?> -->
 
 
-<!-- ---------------------------------------------------- -->
-
+<!-- --------------------------  Bonus uno: aggiungo il filtraggio sul parcheggio  -------------------------- -->
 
 <?php 
 if(isset($_GET['parking']) && ($_GET['parking'] == 'yes' || $_GET['parking'] == 'no')) {
@@ -77,6 +76,9 @@ if(isset($_GET['parking']) && ($_GET['parking'] == 'yes' || $_GET['parking'] == 
 }
 
 ?>
+<!-- ---------------------------------------------------- -->
+
+
 
   <!-- Stampo in pagina i dati in una tabella -->
   <table>
