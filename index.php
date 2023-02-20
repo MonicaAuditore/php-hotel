@@ -48,10 +48,13 @@ $hotels = [
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PHP Hotel</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  
+
 
 </head>
 <body>
+  <!-- Stampo in pagina i dati senza tabella-->
+
 <!-- <?php foreach ($hotels as $hotel): ?>
 		<h2><?= $hotel['name'] ?></h2>
 		<p><?= $hotel['description'] ?></p>
@@ -61,32 +64,56 @@ $hotels = [
 		<hr>
 	<?php endforeach; ?> -->
 
-  <div class="container">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Nome</th>
-					<th>Descrizione</th>
-					<th>Parcheggio</th>
-					<th>Voto</th>
-					<th>Distanza dal centro</th>
-				</tr>
-			</thead>
-			<tbody class="table-striped">
-				<?php foreach ($hotels as $hotel): ?>
-					<tr>
-						<td><?= $hotel['name'] ?></td>
-						<td><?= $hotel['description'] ?></td>
-						<td><?= $hotel['parking'] ? 'Si' : 'No' ?></td>
-						<td><?= $hotel['vote'] ?>/5</td>
-						<td><?= $hotel['distance_to_center'] ?> km</td>
-					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
-	</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<!-- ---------------------------------------------------- -->
 
+
+<?php 
+if(isset($_GET['parking']) && ($_GET['parking'] == 'yes' || $_GET['parking'] == 'no')) {
+  $parkingFilter = ($_GET['parking'] == 'yes');
+  $hotels = array_filter($hotels, function($hotel) use ($parkingFilter) {
+      return $hotel['parking'] == $parkingFilter;
+  });
+}
+
+?>
+
+  <!-- Stampo in pagina i dati in una tabella -->
+  <table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Descrizione</th>
+      <th>Parcheggio</th>
+      <th>Voto</th>
+      <th>Distanza dal centro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($hotels as $hotel) { ?>
+      <tr>
+        <td><?php echo $hotel['name']; ?></td>
+        <td><?php echo $hotel['description']; ?></td>
+        <td><?php echo $hotel['parking'] ? 'Sì' : 'No'; ?></td>
+        <td><?php echo $hotel['vote']; ?></td>
+        <td><?php echo $hotel['distance_to_center']; ?> km</td>
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+
+<!-- --------------------------  Bonus uno: aggiungo il filtraggio sul parcheggio  -------------------------- -->
+
+<form method="GET">
+  <label for="parking">Parcheggio:</label>
+  <select name="parking" id="parking">
+    <option value="">Tutti gli hotel</option>
+    <option value="yes">Con parcheggio</option>
+    <option value="no">Senza parcheggio</option>
+  </select>
+  <button type="submit">Filtra</button>
+
+</form>
 </body>
 </html>
+
